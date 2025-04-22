@@ -31,7 +31,7 @@ jobs:
       uses: azure/aci-deploy@v1
       with:
         resource-group: RGR-ACR
-        dns-name-label: getting-started-${{ github.run_number }}
+        dns-name-label: getting-started-fontys-test
         image: registyforuni.azurecr.io/getting-started:${{ github.run_number }}
         registry-login-server: registyforuni.azurecr.io
         registry-username: registyforuni

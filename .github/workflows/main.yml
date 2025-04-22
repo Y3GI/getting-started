@@ -18,24 +18,24 @@ jobs:
     - name: 'Login to ACR'
       uses: azure/docker-login@v1
       with:
-        login-server: registyforuni.azurecr.io
-        username: registyforuni
-        password: '8XKt/QAyFZa6kyG2W4bNlJzUy/5CA/8/F+qqanjb7++ACRAYhH4F'
+        login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
 
     - name: 'Build and Push Docker Image to ACR'
       run: |
-        docker build . -t registyforuni.azurecr.io/getting-started:${{ github.run_number }}
-        docker push registyforuni.azurecr.io/getting-started:${{ github.run_number }}
+        docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{ secrets.REPOSITORY_NAME }}:${{ github.run_number }}
+        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{ secrets.REPOSITORY_NAME }}:${{ github.run_number }}
         
     - name: 'Deploy to Azure Container Instances'
       uses: azure/aci-deploy@v1
       with:
-        resource-group: RGR-ACR
+        resource-group: ${{ secrets.RESOURCE_GROUP }}
         dns-name-label: getting-started-fontys-test
-        image: registyforuni.azurecr.io/getting-started:${{ github.run_number }}
-        registry-login-server: registyforuni.azurecr.io
-        registry-username: registyforuni
-        registry-password: '8XKt/QAyFZa6kyG2W4bNlJzUy/5CA/8/F+qqanjb7++ACRAYhH4F'
+        image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{ secrets.REPOSITORY_NAME }}:${{ github.run_number }}
+        registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+        registry-username: ${{ secrets.REGISTRY_USERNAME }}
+        registry-password: ${{ secrets.REGISTRY_PASSWORD }}
         name: getting-started-github
         location: 'northeurope'
-        ports: '3000'
+        ports: '443'

@@ -18,14 +18,14 @@ jobs:
     - name: 'Login to ACR'
       uses: azure/docker-login@v1
       with:
-        login-server: ${{ registyforuni.azurecr.io }}
+        login-server: ${{ https://registyforuni.azurecr.io }}
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
 
     - name: 'Build and Push Docker Image to ACR'
       run: |
-        docker build . -t ${{ registyforuni.azurecr.io }}/${{ secrets.REPOSITORY_NAME }}:${{ github.run_number }}
-        docker push ${{ registyforuni.azurecr.io }}/${{ secrets.REPOSITORY_NAME }}:${{ github.run_number }}
+        docker build . -t ${{ https://registyforuni.azurecr.io }}/${{ secrets.REPOSITORY_NAME }}:${{ github.run_number }}
+        docker push ${{ https://registyforuni.azurecr.io }}/${{ secrets.REPOSITORY_NAME }}:${{ github.run_number }}
 
     - name: 'Deploy to Azure Container Instances'
       uses: azure/aci-deploy@v1
